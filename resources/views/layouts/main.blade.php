@@ -10,7 +10,7 @@
     <title>SIPENDAR Upload</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,12 +18,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url('/index2') }}">
                     SPD_UPL
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -75,12 +78,25 @@
             </div>
         </nav>
 
-        
 
-        <main class="py-4">
+
+        {{-- <main class="py-4">
             @yield('content')
+        </main> --}}
+        <main>
+            <div class="row">
+                <div class="col-lg-2 col-md-3" style="border : 2px solid blue">
+
+                </div>
+                <div class="col-lg-10 col-md-9" style="border : 2px solid red">
+                    @yield('content')
+                </div>
+              </div>
         </main>
     </div>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {!! $dataTable->scripts() !!}
+    <footer>
+        test
+    </footer>
 </body>
 </html>

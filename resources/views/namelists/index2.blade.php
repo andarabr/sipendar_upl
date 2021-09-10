@@ -22,28 +22,7 @@
 						</button>
 					</div>
 					@endif
-
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Nama</th>
-								<th>Tanggal Upload</th>
-							</tr>
-						</thead>
-						<tbody>
-							@forelse ($names as $name)
-							<tr>
-								<td>{{$loop->iteration + $names->firstItem() - 1}}</td>
-								<td>{{$name->name}}</td>
-								<td>{{$name->created_at->format('d-M-Y H:i')}}</td>
-							</tr>
-							@empty
-
-							@endforelse
-						</tbody>
-					</table>
-					{{$names->links()}}
+                    {!! $dataTable->table() !!}
 				</div>
 			</div>
 		</div>

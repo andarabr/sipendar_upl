@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\NameList;
 use App\Imports\NamesImport;
+use App\DataTables\NameListDataTable;
 use Maatwebsite\Excel\Facades\Excel;
 
 class NameListController extends Controller
@@ -16,6 +17,15 @@ class NameListController extends Controller
         //return view('dashboards.index', ['biodatas' => $biodata]);
         return view('namelists.index', ['names' => $nameList]);
     }
+
+    public function index2(NameListDataTable $dataTable)
+    {
+        return $dataTable->render('namelists.index2');
+    }
+
+    // public function json(){
+    //     return Datatables::of(NameList::all())->make(true);
+    // }
 
 
     public function importExcel(Request $request){
@@ -33,7 +43,7 @@ class NameListController extends Controller
 
         $request->session()->flash('message', "Data berhasil diimport");
 
-        return redirect('/');
+        return redirect('/index2');
     }
 
     public function destroy()
@@ -42,6 +52,6 @@ class NameListController extends Controller
 
         session()->flash('message', "Data berhasil dihapus");
 
-        return redirect('/');
+        return redirect('/index2');
     }
 }
