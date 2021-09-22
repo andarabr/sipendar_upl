@@ -22,7 +22,10 @@ class NameListDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
-            ->addColumn('action', 'namelist.action')
+            ->addColumn('action', function($row){
+                $btn = '<a href="/xml" class="edit btn btn-info btn-sm">XML</a>';
+                return $btn;
+            })
             ->addColumn('tanggal_upload', function($row)
             {
                $date = date("d F Y / H:m", strtotime($row->created_at));
@@ -54,7 +57,9 @@ class NameListDataTable extends DataTable
                     ->columns([
                         'DT_RowIndex'   => ['title' => 'No', 'searchable' => False, 'orderable' => False],
                         'name'          => ['title' => 'Nama'],
-                        'tanggal_upload'    => ['title' => 'Tanggal Upload']
+                        'id_num'        => ['title' => 'No Identitas'],
+                        'tanggal_upload'    => ['title' => 'Tanggal Upload'],
+                        // 'action' => ['title' => 'Action', 'searchable' => False, 'orderable' => False]
                     ])
                     ->minifiedAjax()
                     //->dom('Bfrtip')

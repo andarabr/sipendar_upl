@@ -16,6 +16,7 @@ class CreateNameListsTable extends Migration
         Schema::create('name_lists', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('id_num');
             $table->timestamps();
         });
     }
