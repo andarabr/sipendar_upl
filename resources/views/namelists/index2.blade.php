@@ -2,15 +2,17 @@
 
 @section('content')
 
-		<div class="container pt-4 bg-white">
+		<div class="p-3 bg-white bborder">
 			<div class="row">
 				<div class="col-md-12 col-xl-12">
 					<div class="py-4 d-flex justify-content-end align-items-center">
-						<h1 class="mr-auto">Name List</h1>
-						<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
+						<h3 class="mr-auto">List Nama PPATK</h3>
+						<button type="button" class="btn btn-primary mr-2 btn-sm" data-toggle="modal" data-target="#importExcel">
 							Import CSV
 						</button>
-						<a class="btn btn-danger" href="{{ route('namelist.destroy') }}">Delete All</a>
+						<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteData">
+							Delete All
+						</button>
 					</div>
 
 
@@ -22,32 +24,10 @@
 						</button>
 					</div>
 					@endif
-
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Nama</th>
-								<th>Tanggal Upload</th>
-                                <th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							@forelse ($names as $name)
-							<tr>
-								<td>{{$loop->iteration + $names->firstItem() - 1}}</td>
-								<td>{{$name->name}}</td>
-								<td>{{$name->created_at->format('d-M-Y H:i')}}</td>
-                                <td><a href="{{ route('namelist.xmlshow', $name->id)}}" class="edit btn btn-info btn-sm">XML</a></td>
-							</tr>
-							@empty
-
-							@endforelse
-						</tbody>
-					</table>
-					{{$names->links()}}
+                    {!! $dataTable->table(['class' =>'table table-striped table-bordered']) !!}
 				</div>
 			</div>
+            {!! $dataTable->scripts() !!}
 		</div>
 
 
@@ -78,4 +58,27 @@
 				</form>
 			</div>
 		</div>
+
+		{{-- Delete All --}}
+		<div class="modal fade" id="deleteData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<form action="{{ route('namelist.destroy') }}" method="POST">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+						</div>
+						<div class="modal-body">
+							{{ csrf_field() }}
+							{{method_field('delete')}}
+							<h6 class="text-center">Apakah Anda Yakin Ingin Menghapus Semua Data?</h6>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
 @endsection

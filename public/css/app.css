@@ -5200,7 +5200,7 @@ a.badge-dark:focus, a.badge-dark.focus {
   border-width: 0 0 1px;
 }
 .list-group-flush > .list-group-item:last-child {
-  border-bottom-width: 0;
+  border-bottom-width: 1;
 }
 
 .list-group-item-primary {
@@ -10001,4 +10001,12 @@ h3 {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.sq{
+  border-radius: 0 !important;
+}
+
+.bborder{
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }

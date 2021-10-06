@@ -2,15 +2,15 @@
 
 @section('content')
 
-		<div class="container pt-4 bg-white">
+		<div class="p-3 bg-white bborder">
 			<div class="row">
-				<div class="col-md-12 col-xl-12">
+				<div class="col-12">
 					<div class="py-4 d-flex justify-content-end align-items-center">
-						<h1 class="mr-auto">Name List</h1>
-						<button type="button" class="btn btn-primary mr-5" data-toggle="modal" data-target="#importExcel">
+						<h3 class="mr-auto">Master CBS Data</h3>
+						<button type="button" class="btn btn-primary mr-5 btn-sm" data-toggle="modal" data-target="#importExcel">
 							Import CSV
 						</button>
-						<a class="btn btn-danger" href="{{ route('namelist.destroy') }}">Delete All</a>
+						<a class="btn btn-danger btn-sm" href="{{ route('namelist.destroy') }}">Delete All</a>
 					</div>
 
 
@@ -23,29 +23,35 @@
 					</div>
 					@endif
 
-					<table class="table table-striped">
+					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<th>No</th>
 								<th>Nama</th>
-								<th>Tanggal Upload</th>
-                                <th>Action</th>
+								<th>No Identitas / NPWP</th>
+                                {{-- <th>Action</th> --}}
 							</tr>
 						</thead>
 						<tbody>
-							@forelse ($names as $name)
+							@forelse ($customers as $customer)
 							<tr>
-								<td>{{$loop->iteration + $names->firstItem() - 1}}</td>
-								<td>{{$name->name}}</td>
-								<td>{{$name->created_at->format('d-M-Y H:i')}}</td>
-                                <td><a href="{{ route('namelist.xmlshow', $name->id)}}" class="edit btn btn-info btn-sm">XML</a></td>
+								<td>{{$loop->iteration + $customers->firstItem() - 1}}</td>
+								<td>{{$customer->name}}</td>
+								<td>
+									@if(is_null($customer->id_num))
+										{{$customer->npwp}}
+									@else
+										{{$customer->id_num}}
+									@endif
+								</td>
+                                {{-- <td><a href="{{ route('customer.xmldown', $customer->id)}}" class="edit btn btn-info btn-sm">XML</a></td> --}}
 							</tr>
 							@empty
 
 							@endforelse
 						</tbody>
 					</table>
-					{{$names->links()}}
+					{{$customers->links()}}
 				</div>
 			</div>
 		</div>

@@ -15,7 +15,8 @@ class NamesImport implements ToModel
     public function model(array $row)
     {
         return new Namelist([
-            'name' => $row[0],
+            'name' => strtoupper($row['0']),
+            'id_num' => $row['1'],
         ]);
     }
 }
