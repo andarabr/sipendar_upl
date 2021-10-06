@@ -1,20 +1,21 @@
-function confirm(){
-    event.preventDefault(); // prevent form submit
-    swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this imaginary file!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-            form.submit()
-            swal("Poof! Your imaginary file has been deleted!", {
-                icon: "success",
-            });
-        } else {
-          swal("Your imaginary file is safe!");
-        }
-      });
+$('#mastercustomer-table').dataTable( {
+  "autoWidth": true
+} );
+
+function test(){
+  var ktpVal = document.getElementById("fktpid");
+  var bdVal = document.getElementById("fbdid");
+  var bpVal = document.getElementById("fbpid");
+
+  var ktpSend = document.getElementById("fktpsend");
+  var bdSend = document.getElementById("fbdsend");
+  var bpSend = document.getElementById("fbpsend");
+
+
+  ktpSend.value = ktpVal.value;
+  bdSend.value = bdVal.value;
+  bpSend.value = bpVal.value;
+
+//   alert(ktpSend.value + bdSend.value + bpSend.value);
 }
+

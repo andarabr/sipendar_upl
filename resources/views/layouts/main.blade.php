@@ -88,7 +88,7 @@
             @yield('content')
         </main> --}}
         <main>
-            <div class="row">
+            <div class="row mr-0">
                 <div class="col-lg-2 col-md-3" style="border: 1px solid rgba(0, 0, 0, 0.125);; min-height:90vh; padding-right : 0; background-color : rgb(255, 255, 255);">
                     {{-- <ul class="list-group">
                         <li class="list-group-item sq"><a href="{{ route('namelist.index2')}}">List Nama PPATK</a></li>
@@ -104,9 +104,11 @@
                         <a href="{{ route('namelist.index2')}}" class="list-group-item list-group-item-action">List Nama PPATK</a>
                         <a href="{{ route('customers.index')}}" class="list-group-item list-group-item-action">Master CBS Data</a>
                         {{-- <a href="{{ route('customers.lookup')}}" class="list-group-item list-group-item-action">Join PPATK & CBS data</a> --}}
+                    <a href="{{ route('data.not.found')}}" class="list-group-item list-group-item-action">Data Not Found in CBS</a>   
                         <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Lookup Data
                         </a>
+
                     </div>
                     <div class="collapse" id="collapseExample">
                         <a href="{{ route('individu.lookup')}}" class="list-group-item list-group-item-secondary list-group-item-action pt-1 pb-1">Proaktif Individu</a>
@@ -120,11 +122,10 @@
         </main>
     </div>
     <footer>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-            <div class="container-fluid">
-                </div>
+            <div class="text-center p-2 bg-dark text-white">
+                <a class="text-white" href="https://www.shinhan.co.id/"><b>Bank Shinhan Indonesia</b></a>
+                | Copyright © 2021
             </div>
-        </nav>
     </footer>
 </body>
 </html>

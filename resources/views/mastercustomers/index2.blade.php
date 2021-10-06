@@ -6,8 +6,8 @@
 			<div class="row">
 				<div class="col-md-12 col-xl-12">
 					<div class="py-4 d-flex justify-content-end align-items-center">
-						<h3 class="mr-auto">List Nama PPATK</h3>
-						<a class="btn btn-warning mr-2 btn-sm" href="{{ route('ppatk.download.format') }}">
+						<h3 class="mr-auto">Master CBS Data</h3>
+						<a class="btn btn-warning mr-2 btn-sm" href="{{ route('cbs.download.format') }}">
 							Download Format
 						</a>
 						<button type="button" class="btn btn-primary mr-2 btn-sm" data-toggle="modal" data-target="#importExcel">
@@ -27,7 +27,7 @@
 						</button>
 					</div>
 					@endif
-                    {!! $dataTable->table(['class' =>'table table-striped table-bordered']) !!}
+                    {!! $dataTable->table(['class' =>'table table-striped table-bordered table-responsive']) !!}
 				</div>
 			</div>
             {!! $dataTable->scripts() !!}
@@ -38,7 +38,7 @@
 		<!-- Import Excel -->
 		<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<form method="post" action="{{ route('namelist.import') }}" enctype="multipart/form-data">
+				<form method="post" action="{{ route('customer.import') }}" enctype="multipart/form-data">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
@@ -65,7 +65,7 @@
 		{{-- Delete All --}}
 		<div class="modal fade" id="deleteData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<form action="{{ route('namelist.destroy') }}" method="POST">
+				<form action="{{ route('customer.destroy') }}" method="POST">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">Confirm</h5>

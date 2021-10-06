@@ -174,4 +174,9 @@ class NameListController extends Controller
 
         return redirect('/index2');
     }
+
+    
+    public function downloadFormat(){
+        return response()->download('format_upload_lists_ppatk.xlsx');
+    }
 }

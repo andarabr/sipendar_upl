@@ -2,11 +2,11 @@
 
 @section('content')
 
-		<div class="p-3 bg-white bborder">
+		<div class="p-3 bg-white bborder" style="border-width: 0 0 1px;">
 			<div class="row">
 				<div class="col-md-12 col-xl-12">
 					<div class="py-4 d-flex justify-content-end align-items-center">
-						<h3 class="mr-auto">Lookup Data Proaktif Individu by Nama</h3>
+						<h3 class="mr-auto">{{$data['title']}}</h3>
                         {{-- <a class="btn btn-info btn-sm"
 						@if ($customers->count() > 0)
 							href="{{ route('customer.xmlall', $cust = 'C') }}">
@@ -25,23 +25,47 @@
                         <div class="form-row">
                           <div class="form-group col-md-4">
                             <label for="inputEmail4">Tambah Filter KTP</label>
-                            <select name='filterktp' class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                <option selected value="0">Tidak</option>
-                                <option value="1">Ya</option>
+                            <select name='filterktp' id='fktpid' class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                                <option
+                                @if ($data['fktp'] == 0)
+                                    selected
+                                @endif
+                                value="0">Tidak</option>
+                                <option
+                                @if ($data['fktp'] == 1)
+                                    selected
+                                @endif
+                                value="1">Ya</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                             <label for="inputPassword4">Tambah Filter Tanggal Lahir</label>
-                            <select name='filterbirthdate' class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                <option selected value="0">Tidak</option>
-                                <option value="1">Ya</option>
+                            <select name='filterbirthdate' id='fbdid' class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                                <option
+                                @if ($data['fbd'] == 0)
+                                    selected
+                                @endif
+                                value="0">Tidak</option>
+                                <option
+                                @if ($data['fbd'] == 1)
+                                    selected
+                                @endif
+                                value="1">Ya</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                             <label for="inputPassword4">Tambah Filter Tempat Lahir</label>
                             <select name='filterbirthplace' id='fbpid' class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                <option selected value="0">Tidak</option>
-                                <option value="1">Ya</option>
+                                <option
+                                @if ($data['fbp'] == 0)
+                                    selected
+                                @endif
+                                value="0">Tidak</option>
+                                <option
+                                @if ($data['fbp'] == 1)
+                                    selected
+                                @endif
+                                value="1">Ya</option>
                               </select>
                           </div>
                         </div>
@@ -68,6 +92,7 @@
 					</div>
 
 					<table class="table table-striped table-bordered">
+						{{-- <caption class="text-center">Total Data : {{ $customers->total() }}</caption> --}}
 						<thead>
 							<tr>
 								<th>No</th>
@@ -123,14 +148,18 @@
 						</tbody>
 					</table>
 					<div class="float-right">
-						{{$customers->links()}}
-					</div>
+						{{$customers->appends(array(
+							'filterktp' => $data['fktp'],
+							'filterbirthdate' => $data['fbd'],
+							'filterbirthplace' => $data['fbp']
+							))->links()}}
+						</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Download XML -->
-		<div class="modal fade" id="downloadXML" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" onfocus="test()" id="downloadXML" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<form method="post" action="{{ route('customer.xmlall', $cust = 'R') }}" enctype="multipart/form-data">
 					<div class="modal-content">
@@ -141,6 +170,9 @@
 
 							{{ csrf_field() }}
 							<input type="hidden" name="cust_type" value="R">
+                            <input type="hidden" name="filterktp" id="fktpsend">
+                            <input type="hidden" name="filterbirthdate" id="fbdsend">
+                            <input type="hidden" name="filterbirthplace" id="fbpsend">
 							<div class="form-group">
 								<label for="jenwatch">Jenis Watchlist</label>
 								<select class="form-control" name="tipe_watchlist" id="jenwatch" required>
