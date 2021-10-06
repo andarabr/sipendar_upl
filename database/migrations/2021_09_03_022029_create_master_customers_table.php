@@ -19,9 +19,8 @@ class CreateMasterCustomersTable extends Migration
             $table->char('cust_type', 1);
             $table->string('name');
             $table->char('country_code', 2);
-            $table->string('id_address')->nullable();
             $table->string('birthplace')->nullable();
-            $table->date('birthdate')->nullable();
+            $table->string('birthdate');
             //corps
             $table->string('npwp')->nullable();;
             $table->string('no_izin_usaha')->nullable();;

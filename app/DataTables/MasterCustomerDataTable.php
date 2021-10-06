@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\NameList;
+use App\Models\MasterCustomer;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class NameListDataTable extends DataTable
+class MasterCustomerDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -36,10 +36,10 @@ class NameListDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\NameList $model
+     * @param \App\Models\MasterCustomer $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(NameList $model)
+    public function query(MasterCustomer $model)
     {
         return $model->newQuery();
     }
@@ -52,18 +52,32 @@ class NameListDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('namelist-table')
-                    //->columns($this->getColumns())
+                    ->setTableId('mastercustomer-table')
                     ->columns([
                         'DT_RowIndex'   => ['title' => 'No', 'searchable' => False, 'orderable' => False],
                         'name'          => ['title' => 'Nama'],
-                        'id_num'        => ['title' => 'No Identitas'],
+                        'id_num'        => ['title' => 'KTP'],
+                        'npwp'          => ['title' => 'NPWP'],
                         'birthplace'    => ['title' => 'Tempat Lahir'],
-                        'birthdate'     => ['title' => 'Tamggal Lahir'],
-                        'tanggal_upload'    => ['title' => 'Tanggal Upload'],
+                        'birthdate'     => ['title' => 'Tanggal Lahir'],
+                        'current_address'          => ['title' => 'Alamat', 'autoWidth' => 'false'],
+                        'city'          => ['title' => 'Kota'],
+                        'current_country_code'          => ['title' => 'Kode Negara'],
+                        'zip_code'          => ['title' => 'Kode Pos'],
+                        'phone_number'          => ['title' => 'No HP'],
+                        'cif'          => ['title' => 'CIF'],
+                        'account_num'          => ['title' => 'No Rekening'],
+                        'account_type'          => ['title' => 'Tipe Rekening'],
+                        'account_status'          => ['title' => 'Status Rekening'],
+                        'tanggal_upload'=> ['title' => 'Tanggal Upload'],
+                      
+
+
                         // 'action' => ['title' => 'Action', 'searchable' => False, 'orderable' => False]
                     ])
                     ->minifiedAjax()
+                    //->scrollX(true)
+                    ->autoWidth(false)
                     //->dom('Bfrtip')
                     ->orderBy(1, 'asc')
                     ->buttons(
@@ -94,14 +108,6 @@ class NameListDataTable extends DataTable
     //         Column::make('updated_at'),
     //     ];
     // }
-    // protected function getColumns()
-    // {
-    //     return [
-    //         'DT_RowIndex',
-    //         'name',
-    //         'created_at'
-    //     ];
-    // }
 
     /**
      * Get filename for export.
@@ -110,6 +116,6 @@ class NameListDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'NameList_' . date('YmdHis');
+        return 'MasterCustomer_' . date('YmdHis');
     }
 }
