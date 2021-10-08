@@ -60,7 +60,7 @@ class MasterCustomerExport extends DefaultValueBinder implements FromQuery, With
         dd($namelist);
         return [
             $namelist->name,
-            $namelist-> id_num,
+            $namelist->id_num,
             $namelist->birthdate,
             $namelist->birthplace,
         ];

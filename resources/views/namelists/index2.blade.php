@@ -41,13 +41,13 @@
 				<form method="post" action="{{ route('namelist.import') }}" enctype="multipart/form-data">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+							<h5 class="modal-title" id="exampleModalLabel">Import CSV</h5>
 						</div>
 						<div class="modal-body">
 
 							{{ csrf_field() }}
 
-							<label>Pilih file excel</label>
+							<label>Pilih file CSV</label>
 							<div class="form-group">
 								<input type="file" name="file" required="required">
 							</div>
