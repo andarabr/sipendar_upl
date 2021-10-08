@@ -41,7 +41,7 @@ class CreateMasterCustomersTable extends Migration
             $table->string('account_type');
             $table->string('account_status');
             $table->string('account_num');
-            $table->string('pjk_id');
+            $table->string('pjk_id')->nullable();
             //atms
             $table->string('card_num');
             //identifications

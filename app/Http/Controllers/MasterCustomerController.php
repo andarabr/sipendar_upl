@@ -173,7 +173,7 @@ class MasterCustomerController extends Controller
             $fktp = 0;
             $fbd = 0;
             $fbp = 1;
-            $title = 'Lookup Data Proaktif Individu by Nama';
+            $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 1) {
             $joinData = MasterCustomer::select('master_customers.*')
@@ -352,7 +352,7 @@ class MasterCustomerController extends Controller
             $fktp = 0;
             $fbd = 0;
             $fbp = 1;
-            $title = 'Lookup Data Proaktif Korporasi by Nama';
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tempat Lahir';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 1) {
             $joinData = MasterCustomer::select('master_customers.*')
@@ -446,7 +446,7 @@ class MasterCustomerController extends Controller
                 'jenis_rekening_code' => $cust1['account_type'],
                 'status_rekening_code' => $cust1['account_status'],
                 'no_rekening' => $cust1['account_num'],
-                'pjk_id' => $cust1['pjk_id'],
+                'pjk_id' => '99',
             );
         }
 
@@ -549,7 +549,7 @@ class MasterCustomerController extends Controller
                         'jenis_rekening_code' => $customerData['account_type'],
                         'status_rekening_code' => $customerData['account_status'],
                         'no_rekening' => $customerData['account_num'],
-                        'pjk_id' => $customerData['pjk_id'],
+                        'pjk_id' => '99',
                         'atms' => [
                             'no_atm' => $customerData['card_num'],
                         ],
@@ -570,10 +570,10 @@ class MasterCustomerController extends Controller
 
 
         $arrayToXml = new ArrayToXml($array);
-        $arrayToXml->setDomProperties(['formatOutput' => true],['preserveWhiteSpace' => true]);
+        $arrayToXml->setDomProperties(['encoding' => 'UTF-8'],['formatOutput' => true],['preserveWhiteSpace' => true]);
         $result = $arrayToXml->prettify()->toXml();
 
-        $dom = new \DOMdocument('1.0');
+        $dom = new \DOMdocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);
@@ -626,7 +626,7 @@ class MasterCustomerController extends Controller
                             'jenis_rekening_code' => $customerData['account_type'],
                             'status_rekening_code' => $customerData['account_status'],
                             'no_rekening' => $customerData['account_num'],
-                            'pjk_id' => $customerData['pjk_id'],
+                            'pjk_id' => '99',
                             'atms' => [
                                 'no_atm' => $customerData['card_num'],
                             ],
@@ -638,10 +638,10 @@ class MasterCustomerController extends Controller
 
 
         $arrayToXml = new ArrayToXml($array);
-        $arrayToXml->setDomProperties(['formatOutput' => true],['preserveWhiteSpace' => true]);
+        $arrayToXml->setDomProperties(['encoding' => 'UTF-8'],['formatOutput' => true],['preserveWhiteSpace' => true]);
         $result = $arrayToXml->prettify()->toXml();
 
-        $dom = new \DOMdocument('1.0');
+        $dom = new \DOMdocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);
@@ -696,7 +696,7 @@ class MasterCustomerController extends Controller
                         'jenis_rekening_code' => $customerData['account_type'],
                         'status_rekening_code' => $customerData['account_status'],
                         'no_rekening' => $customerData['account_num'],
-                        'pjk_id' => $customerData['pjk_id'],
+                        'pjk_id' => '99',
                         'atms' => [
                             'no_atm' => $customerData['card_num'],
                         ],
@@ -717,10 +717,10 @@ class MasterCustomerController extends Controller
 
 
         $arrayToXml = new ArrayToXml($array);
-        $arrayToXml->setDomProperties(['formatOutput' => true],['preserveWhiteSpace' => true]);
+        $arrayToXml->setDomProperties(['encoding' => 'UTF-8'],['formatOutput' => true],['preserveWhiteSpace' => true]);
         $result = $arrayToXml->prettify()->toXml();
 
-        $dom = new \DOMdocument('1.0');
+        $dom = new \DOMdocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);
@@ -770,7 +770,7 @@ class MasterCustomerController extends Controller
                             'jenis_rekening_code' => $customerData['account_type'],
                             'status_rekening_code' => $customerData['account_status'],
                             'no_rekening' => $customerData['account_num'],
-                            'pjk_id' => $customerData['pjk_id'],
+                            'pjk_id' => '99',
                             'atms' => [
                                 'no_atm' => $customerData['card_num'],
                             ],
@@ -782,10 +782,10 @@ class MasterCustomerController extends Controller
 
 
         $arrayToXml = new ArrayToXml($array);
-        $arrayToXml->setDomProperties(['formatOutput' => true],['preserveWhiteSpace' => true]);
+        $arrayToXml->setDomProperties(['encoding' => 'UTF-8'],['formatOutput' => true],['preserveWhiteSpace' => true]);
         $result = $arrayToXml->prettify()->toXml();
 
-        $dom = new \DOMdocument('1.0');
+        $dom = new \DOMdocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);

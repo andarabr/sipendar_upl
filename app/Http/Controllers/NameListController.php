@@ -92,7 +92,7 @@ class NameListController extends Controller
                         'jenis_rekening_code' => $customerData['0']['account_type'],
                         'status_rekening_code' => $customerData['0']['account_status'],
                         'no_rekening' => $customerData['0']['account_num'],
-                        'pjk_id' => $customerData['0']['pjk_id'],
+                        'pjk_id' => '99',
                         'atms' => [
                             'no_atm' => $customerData['0']['card_num'],
                         ],
@@ -116,7 +116,7 @@ class NameListController extends Controller
         $arrayToXml->setDomProperties(['formatOutput' => true],['preserveWhiteSpace' => true]);
         $result = $arrayToXml->prettify()->toXml();
 
-        $dom = new \DOMdocument('1.0');
+        $dom = new \DOMdocument('1.0','UTF-8');
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);
