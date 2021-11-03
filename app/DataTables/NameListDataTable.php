@@ -28,7 +28,7 @@ class NameListDataTable extends DataTable
             })
             ->addColumn('tanggal_upload', function($row)
             {
-               $date = date("d F Y / H:m", strtotime($row->created_at));
+               $date = date("d F Y", strtotime($row->created_at));
                return $date;
             });
     }
@@ -56,6 +56,10 @@ class NameListDataTable extends DataTable
                     //->columns($this->getColumns())
                     ->columns([
                         'DT_RowIndex'   => ['title' => 'No', 'searchable' => False, 'orderable' => False],
+                        'periode'       => ['title' => 'Periode'],
+                        'list_id'       => ['title' => 'Id'],
+                        'kode_watchlist'       => ['title' => 'Kode Watchlist'],
+                        'jenis_pelaku'       => ['title' => 'Jenis Pelaku'],
                         'name'          => ['title' => 'Nama'],
                         'id_num'        => ['title' => 'No Identitas'],
                         'birthplace'    => ['title' => 'Tempat Lahir'],

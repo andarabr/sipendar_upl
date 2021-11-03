@@ -20,10 +20,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/dataTables.bootstrap5.min.css">
-    <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap5.min.css')}}">
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
 </head>
 <body>
@@ -79,6 +79,29 @@
                         @endguest
                     </ul> --}}
                 </div>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle btn btn-sm btn-outline-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        @if (Auth::user()->name == 'shinhan_adm')
+                            <a class="dropdown-item" href="{{ url('/register') }}">
+                                Register User
+                            </a>
+                        @endif
+                        <a class="dropdown-item" href="{{ route('change.password.form') }}">
+                            Change Password
+                        </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
             </div>
         </nav>
 
@@ -101,10 +124,11 @@
                         {{-- <a href="#" class="list-group-item list-group-item-action active">
                           Cras justo odio
                         </a> --}}
+                        {{-- <a href="{{ route('home.user')}}" class="list-group-item list-group-item-action">List User Login</a> --}}
                         <a href="{{ route('namelist.index2')}}" class="list-group-item list-group-item-action">List Nama PPATK</a>
                         <a href="{{ route('customers.index')}}" class="list-group-item list-group-item-action">Master CBS Data</a>
                         {{-- <a href="{{ route('customers.lookup')}}" class="list-group-item list-group-item-action">Join PPATK & CBS data</a> --}}
-                    <a href="{{ route('data.not.found')}}" class="list-group-item list-group-item-action">Data Not Found in CBS</a>   
+                    <a href="{{ route('data.not.found')}}" class="list-group-item list-group-item-action">Data Not Found in CBS</a>
                         <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Lookup Data
                         </a>

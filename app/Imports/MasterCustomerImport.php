@@ -7,8 +7,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class MasterCustomerImport implements ToModel, WithHeadingRow, WithCustomCsvSettings
+class MasterCustomerImport implements ToModel, WithHeadingRow, WithCustomCsvSettings, WithChunkReading
 {
     /**
     * @param array $row
@@ -54,9 +55,14 @@ class MasterCustomerImport implements ToModel, WithHeadingRow, WithCustomCsvSett
 
     public function getCsvSettings(): array
     {
-    return [
-        'delimiter' => ";"
-    ];
-}
+        return [
+            'delimiter' => ","
+        ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
+    }
 
 }

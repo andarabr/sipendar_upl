@@ -18,6 +18,10 @@ class NamesImport implements ToModel, WithHeadingRow, WithCustomCsvSettings
     public function model(array $row)
     {
         return new Namelist([
+            'periode' => $row['periode'],
+            'list_id' => $row['id'],
+            'kode_watchlist' => $row['kode_watchlist'],
+            'jenis_pelaku' => $row['jenis_pelaku'],
             'name' => strtoupper($row['name']),
             'id_num' => $row['id_num'],
             'birthplace' => $row['birthplace'],
