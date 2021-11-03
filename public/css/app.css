@@ -5200,7 +5200,7 @@ a.badge-dark:focus, a.badge-dark.focus {
   border-width: 0 0 1px;
 }
 .list-group-flush > .list-group-item:last-child {
-  border-bottom-width: 1;
+  border-bottom-width: 0;
 }
 
 .list-group-item-primary {

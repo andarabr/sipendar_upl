@@ -19,3 +19,20 @@ function test(){
 //   alert(ktpSend.value + bdSend.value + bpSend.value);
 }
 
+function test2(){
+    var ktpVal = document.getElementById("fktpid");
+    var bdVal = document.getElementById("fbdid");
+    var bpVal = document.getElementById("fbpid");
+
+    var ktpSendw = document.getElementById("fktpsendw");
+    var bdSendw = document.getElementById("fbdsendw");
+    var bpSendw = document.getElementById("fbpsendw");
+
+
+    ktpSendw.value = ktpVal.value;
+    bdSendw.value = bdVal.value;
+    bpSendw.value = bpVal.value;
+
+    // alert(ktpSendw.value + bdSendw.value + bpSendw.value);
+  }
+

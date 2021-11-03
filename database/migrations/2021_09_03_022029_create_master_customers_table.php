@@ -16,41 +16,41 @@ class CreateMasterCustomersTable extends Migration
         Schema::create('master_customers', function (Blueprint $table) {
             $table->id();
             //retail
-            $table->char('cust_type', 1);
-            $table->string('name');
-            $table->char('country_code', 2);
+            $table->string('cust_type')->nullable();
+            $table->string('name')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('birthplace')->nullable();
-            $table->string('birthdate');
+            $table->string('birthdate')->nullable();
             //corps
             $table->string('npwp')->nullable();;
             $table->string('no_izin_usaha')->nullable();;
 
             //addresses
-            $table->string('current_address_type');
-            $table->string('current_address');
-            $table->string('city');
-            $table->char('current_country_code', 2);
-            $table->char('zip_code', 5);
+            $table->string('current_address_type')->nullable();
+            $table->string('current_address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('current_country_code')->nullable();
+            $table->string('zip_code')->nullable();
             //phones
-            $table->string('contact_type');
-            $table->string('communication_type');
-            $table->char('country_prefix', 2);
-            $table->char('phone_number', 13);
+            $table->string('contact_type')->nullable();
+            $table->string('communication_type')->nullable();
+            $table->string('country_prefix')->nullable();
+            $table->string('phone_number')->nullable();
             //rekenings
-            $table->string('cif');
-            $table->string('account_type');
-            $table->string('account_status');
-            $table->string('account_num');
+            $table->string('cif')->nullable();
+            $table->string('account_type')->nullable();
+            $table->string('account_status')->nullable();
+            $table->string('account_num')->nullable();
             $table->string('pjk_id')->nullable();
             //atms
-            $table->string('card_num');
+            $table->string('card_num')->nullable();
             //identifications
             $table->string('id_type')->nullable();;
-            $table->char('id_num', 16)->nullable();;
+            $table->string('id_num')->nullable();;
             $table->string('issue_date')->nullable();;
             $table->string('expiry_date')->nullable();;
             $table->string('issued_by')->nullable();;
-            $table->char('issued_country_code', 2)->nullable();;
+            $table->string('issued_country_code')->nullable();;
 
             $table->timestamps();
         });

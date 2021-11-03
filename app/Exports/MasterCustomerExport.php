@@ -57,7 +57,7 @@ class MasterCustomerExport extends DefaultValueBinder implements FromQuery, With
 
     public function map($namelist): array
     {
-        dd($namelist);
+        //dd($namelist);
         return [
             $namelist->name,
             $namelist->id_num,

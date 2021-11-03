@@ -13,6 +13,11 @@ use File;
 
 class NameListController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $nameList = NameList::paginate(20);
@@ -129,7 +134,7 @@ class NameListController extends Controller
 
         return response()->download($file_name)->deleteFileAfterSend(true);
 
-        
+
         //return 'test.xml';
 
         //dd($xml_pretty);
@@ -175,7 +180,7 @@ class NameListController extends Controller
         return redirect('/index2');
     }
 
-    
+
     public function downloadFormat(){
         return response()->download('format_upload_lists_ppatk.xlsx');
     }

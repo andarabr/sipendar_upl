@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterCustomer;
+use App\Models\NameList;
 use App\Models\ViewLDBName;
 use Illuminate\Http\Request;
 use Spatie\ArrayToXml\ArrayToXml;
@@ -16,11 +17,11 @@ use ZipArchive;
 
 class MasterCustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $masterCustomer = MasterCustomer::paginate(20);
@@ -34,6 +35,7 @@ class MasterCustomerController extends Controller
     }
 
     public function importExcel(Request $request){
+        set_time_limit(1000000);
         // $file = $request->file('file');
         // $file = is_array($file) ? $file[0] : $file;
         // dd($file);
@@ -66,8 +68,8 @@ class MasterCustomerController extends Controller
 
     public function lookupDataIndividu()
     {
-        $joinData= MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', 'master_customers.name', '=', 'name_lists.name')
+        $joinData= NameList::select('name_lists.*')
+                                    ->join('master_customers', 'master_customers.name', '=', 'name_lists.name')
                                     ->where('master_customers.cust_type', '=', 'R')
                                     ->orderby('master_customers.name')
                                     ->paginate(10);
@@ -86,8 +88,8 @@ class MasterCustomerController extends Controller
         $fbp = $request['filterbirthplace'];
 
         if ($fktp == 0 && $fbd == 0 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
 
@@ -102,8 +104,8 @@ class MasterCustomerController extends Controller
             $title = 'Lookup Data Proaktif Individu by Nama';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -121,8 +123,8 @@ class MasterCustomerController extends Controller
             //dd($joinData);
         }
         else if ($fktp == 0 && $fbd == 1 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
@@ -139,8 +141,8 @@ class MasterCustomerController extends Controller
 
         }
         else if ($fktp == 1 && $fbd == 1 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -159,8 +161,8 @@ class MasterCustomerController extends Controller
         }
 
         if ($fktp == 0 && $fbd == 0 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
@@ -176,8 +178,8 @@ class MasterCustomerController extends Controller
             $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -196,8 +198,8 @@ class MasterCustomerController extends Controller
             //dd($joinData);
         }
         else if ($fktp == 0 && $fbd == 1 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
@@ -215,8 +217,8 @@ class MasterCustomerController extends Controller
 
         }
         else if ($fktp == 1 && $fbd == 1 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -235,6 +237,318 @@ class MasterCustomerController extends Controller
 
         }
 
+        //NULL START
+        else if ($fktp == 0 && $fbd == 0 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama | Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tanggal Lahir | Tempat Lahir NULL';
+
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama | Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 0 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 0;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Individu by Nama | KTP NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tanggal Lahir | KTP NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Individu by Nama, Tanggal Lahir & Tempat Lahir | KTP NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tanggal Lahir | KTP & Tempat Lahir NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir | KTP & Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Individu by Nama | KTP & Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama | KTP, Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama & KTP | Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Individu by Nama & KTP | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Individu by Nama, KTP, dan Tanggal Lahir | Tempat Lahir NULL';
+        }
+
         $data = [
             'fktp' => $fktp,
             'fbd' => $fbd,
@@ -247,8 +561,8 @@ class MasterCustomerController extends Controller
 
     public function lookupDataKorporasi()
     {
-        $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', 'master_customers.name', '=', 'name_lists.name')
+        $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', 'master_customers.name', '=', 'name_lists.name')
                                     ->where('master_customers.cust_type', '=', 'C')
                                     ->orderby('master_customers.name')
                                     ->paginate(10);
@@ -265,8 +579,8 @@ class MasterCustomerController extends Controller
         $fbp = $request['filterbirthplace'];
 
         if ($fktp == 0 && $fbd == 0 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
 
@@ -281,8 +595,8 @@ class MasterCustomerController extends Controller
             $title = 'Lookup Data Proaktif Korporasi by Nama';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -300,8 +614,8 @@ class MasterCustomerController extends Controller
             //dd($joinData);
         }
         else if ($fktp == 0 && $fbd == 1 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
@@ -318,8 +632,8 @@ class MasterCustomerController extends Controller
 
         }
         else if ($fktp == 1 && $fbd == 1 && $fbp == 0) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -338,8 +652,8 @@ class MasterCustomerController extends Controller
         }
 
         else if ($fktp == 0 && $fbd == 0 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
@@ -355,8 +669,8 @@ class MasterCustomerController extends Controller
             $title = 'Lookup Data Proaktif Korporasi by Nama & Tempat Lahir';
         }
         else if ($fktp == 1 && $fbd == 0 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -375,8 +689,8 @@ class MasterCustomerController extends Controller
             //dd($joinData);
         }
         else if ($fktp == 0 && $fbd == 1 && $fbp == 1) {
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
@@ -395,8 +709,8 @@ class MasterCustomerController extends Controller
         }
         else if ($fktp == 1 && $fbd == 1 && $fbp == 1) {
             //dump($fbp);
-            $joinData = MasterCustomer::select('master_customers.*')
-                                    ->join('name_lists', function($join)
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
                                     {
                                         $join->on('master_customers.name', '=', 'name_lists.name');
                                         $join->on('master_customers.id_num', '=', 'name_lists.id_num');
@@ -413,6 +727,318 @@ class MasterCustomerController extends Controller
             $fbp = 1;
             $title = 'Lookup Data Proaktif Korporasi by Nama, KTP, Tanggal Lahir & Tempat Lahir';
 
+        }
+
+        //NULL START
+        else if ($fktp == 0 && $fbd == 0 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tempat Lahir | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 0 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tanggal Lahir | Tempat Lahir NULL';
+
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 0 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 0;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | KTP NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tanggal Lahir | KTP NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Korporasi by Nama, Tanggal Lahir & Tempat Lahir | KTP NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tanggal Lahir | KTP & Tempat Lahir NULL';
+
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tempat Lahir | KTP & Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | KTP & Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama | KTP, Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & Tempat Lahir | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & KTP | Tanggal Lahir & Tempat Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 0) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 0;
+            $title = 'Lookup Data Proaktif Korporasi by Nama & KTP | Tanggal Lahir NULL';
+
+        }
+        else if ($fktp == 1 && $fbd == 1 && $fbp == 2) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'C')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 1;
+            $fbd = 1;
+            $fbp = 2;
+            $title = 'Lookup Data Proaktif Korporasi by Nama, KTP, dan Tanggal Lahir | Tempat Lahir NULL';
         }
 
         $data = [
@@ -873,7 +1499,7 @@ class MasterCustomerController extends Controller
 
         }
 
-        if ($fktp == 0 && $fbd == 0 && $fbp == 1) {
+        else if ($fktp == 0 && $fbd == 0 && $fbp == 1) {
             $customers = MasterCustomer::select('master_customers.*')
                                     ->join('name_lists', function($join)
                                     {
@@ -943,6 +1569,289 @@ class MasterCustomerController extends Controller
             $fktp = 1;
             $fbd = 1;
             $fbp = 1;
+
+        }
+
+        //NULL START
+
+        else if ($fktp == 0 && $fbd == 0 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 0) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 0;
+            $fbd = 0;
+            $fbp = 2;
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 1) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 1;
+        }
+        else if ($fktp == 0 && $fbd == 1 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 0;
+            $fbd = 1;
+            $fbp = 2;
+
+        }
+        else if ($fktp == 0 && $fbd == 2 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 0;
+            $fbd = 2;
+            $fbp = 2;
+        }
+        else if ($fktp == 2 && $fbd == 0 && $fbp == 0) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 0;
+            $fbp = 0;
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 0) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 0;
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 1) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 1;
+
+        }
+        else if ($fktp == 2 && $fbd == 1 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 1;
+            $fbp = 2;
+
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 1) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 1;
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 0) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 0;
+        }
+        else if ($fktp == 2 && $fbd == 2 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.id_num')
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 2;
+            $fbd = 2;
+            $fbp = 2;
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 1) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 1;
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 2;
+        }
+        else if ($fktp == 1 && $fbd == 2 && $fbp == 0) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthdate')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 1;
+            $fbd = 2;
+            $fbp = 0;
+        }
+        else if ($fktp == 1 && $fbd == 1 && $fbp == 2) {
+            $customers = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.id_num', '=', 'name_lists.id_num');
+                                        $join->on('master_customers.birthdate', '=', 'name_lists.birthdate');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', $cust)
+                                    ->whereNull('name_lists.birthplace')
+                                    ->orderby('master_customers.name')
+                                    ->get();
+
+            $fktp = 1;
+            $fbd = 1;
+            $fbp = 2;
 
         }
 
