@@ -350,6 +350,25 @@ class MasterCustomerController extends Controller
             $title = 'Lookup Data Proaktif Individu by Nama | KTP NULL';
 
         }
+        else if ($fktp == 2 && $fbd == 0 && $fbp == 1) {
+            $joinData = NameList::select('name_lists.*')
+                                    ->join('master_customers', function($join)
+                                    {
+                                        $join->on('master_customers.name', '=', 'name_lists.name');
+                                        $join->on('master_customers.birthplace', '=', 'name_lists.birthplace');
+
+                                    })
+                                    ->where('master_customers.cust_type', '=', 'R')
+                                    ->whereNull('name_lists.id_num')
+                                    ->orderby('master_customers.name')
+                                    ->paginate(10);
+
+            $fktp = 2;
+            $fbd = 0;
+            $fbp = 1;
+            $title = 'Lookup Data Proaktif Individu by Nama & Tempat Lahir | KTP NULL';
+
+        }
         else if ($fktp == 2 && $fbd == 1 && $fbp == 0) {
             $joinData = NameList::select('name_lists.*')
                                     ->join('master_customers', function($join)
