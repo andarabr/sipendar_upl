@@ -1,0 +1,56 @@
+[33mcommit 3d68abb832a55720abe9c93ac5108576d52653b6[m[33m ([m[1;36mHEAD -> [m[1;32mprd[m[33m)[m
+Author: Administrator@shbid.infra.shinhan.com <Administrator@shbid.infra.shinhan.com>
+Date:   Thu Nov 4 17:32:50 2021 +0700
+
+    Hotfix db address data length migration
+
+[33mcommit 8bc32f3820108b1f98b5332d7a7dd8ce970e325a[m[33m ([m[1;31morigin/prd[m[33m)[m
+Author: Administrator@shbid.infra.shinhan.com <Administrator@shbid.infra.shinhan.com>
+Date:   Wed Nov 3 08:36:12 2021 +0700
+
+    Add Advanced Lookup Filtering & Auth Login
+
+[33mcommit 0588af32e37578282297c664a3c13e764d4ff224[m[33m ([m[1;31morigin/workpc[m[33m, [m[1;32mworkpc[m[33m)[m
+Author: andarabr <andarabrey@gmail.com>
+Date:   Fri Oct 8 17:10:46 2021 +0700
+
+    Finalise Phase 1
+
+[33mcommit 596db2613e5905db9cfad745f624a24e13e233ec[m
+Author: andarabr <andarabrey@gmail.com>
+Date:   Wed Oct 6 13:47:26 2021 +0700
+
+    Complete Phase 1
+
+[33mcommit f77ecc2e3f08d487a300edae66b4bff84fc36434[m
+Author: andarabr <andarabrey@gmail.com>
+Date:   Wed Sep 22 16:00:26 2021 +0700
+
+    add functional Master Customer & Data Lookup
+
+[33mcommit 8e406186be03bc97070a8261f3133da39a9f8aca[m[33m ([m[1;31morigin/homepc[m[33m, [m[1;32mmain[m[33m, [m[1;32mhomepc[m[33m)[m
+Author: Breygas Andara <breiighost@gmail.com>
+Date:   Fri Sep 10 10:50:21 2021 +0700
+
+    add Datatable Namelist  service
+
+[33mcommit c423bd864be4521080c7da37398a7614c969e5b1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 74317d7 79182bd
+Author: Breygas Andara <52629406+andarabr@users.noreply.github.com>
+Date:   Fri Sep 3 18:17:36 2021 +0700
+
+    Merge pull request #1 from andarabr/workpc
+    
+    Add NameList Import CSV Feature
+
+[33mcommit 79182bdbf91e08e39892374903fd88303e5006f2[m
+Author: andarabr <andarabrey@gmail.com>
+Date:   Fri Sep 3 15:45:00 2021 +0700
+
+    Add NameList Import CSV Feature
+
+[33mcommit 74317d7d010c2730f3eed93f108e185fc7b7dbc6[m
+Author: andarabr <andarabrey@gmail.com>
+Date:   Thu Sep 2 16:23:14 2021 +0700
+
+    First Commit - Fresh Installation

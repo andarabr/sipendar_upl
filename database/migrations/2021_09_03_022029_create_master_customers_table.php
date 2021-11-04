@@ -17,7 +17,7 @@ class CreateMasterCustomersTable extends Migration
             $table->id();
             //retail
             $table->string('cust_type')->nullable();
-            $table->string('name')->nullable();
+            $table->longText('name')->nullable();
             $table->string('country_code')->nullable();
             $table->string('birthplace')->nullable();
             $table->string('birthdate')->nullable();
@@ -27,7 +27,7 @@ class CreateMasterCustomersTable extends Migration
 
             //addresses
             $table->string('current_address_type')->nullable();
-            $table->string('current_address')->nullable();
+            $table->longText('current_address')->nullable();
             $table->string('city')->nullable();
             $table->string('current_country_code')->nullable();
             $table->string('zip_code')->nullable();
